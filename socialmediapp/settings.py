@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
-        'rest_framework',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +101,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FileUploadParser'
+    ]
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
