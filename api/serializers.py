@@ -24,3 +24,9 @@ class CreateRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("requests","username")
+    
+class CreateFriendSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(validators=[])
+    class Meta:
+        model = User
+        fields = ("friends","username")
