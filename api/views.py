@@ -2,11 +2,12 @@ from ast import For
 from glob import glob
 from http.client import HTTPResponse
 from django.shortcuts import HttpResponse
+import json
 from rest_framework.response import Response
 from api.models import User
 import json
 from rest_framework.views import APIView
-from api.serializers import CreateUserSerializer,  UpdateUserSerializer, UserSerializer
+from api.serializers import CreateRequestSerializer, CreateUserSerializer,  UpdateUserSerializer, UserSerializer
 from rest_framework import generics,status
 from rest_framework.parsers import FileUploadParser, FormParser, MultiPartParser
 from django.views.decorators.csrf import csrf_exempt
@@ -70,6 +71,54 @@ class UpdateProfileView(APIView):
         user.save()
         mainuser = user
         return Response(UserSerializer(user).data,status=status.HTTP_201_CREATED)
+
+class CreateRequestView(APIView):
+    serializer_class = CreateRequestSerializer
+    def post(self,request,format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            requests = serializer.data.get("requests")
+            username = serializer.data.get("username")
+            user = User.objects.get(username=username)
+            if user is not None:
+                user_re = user.requests
+                if user_re == "None":
+                    print("ok")
+                    user_re = requests
+                else:
+                    user_re = user_re + "," + requests
+                print(user_re)
+                user_re = str(user_re)
+                print(user_re)
+                user.requests = user_re
+                user.save()
+                return Response({"Success Request":"request created"},status=status.HTTP_201_CREATED)
+        
+            return Response({"Bad Request":"user not found"},status=status.HTTP_400_BAD_REQUEST)
+        return Response({"Bad Request":"Data Not Valid"},status=status.HTTP_400_BAD_REQUEST)   
+
+class RemoveRequestView(APIView):
+    serializer_class = CreateRequestSerializer
+    def post(self,request,format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            username = serializer.data.get("username")         
+            requests = serializer.data.get("requests")
+            user = User.objects.get(username=username)
+            print(user)
+            user_re = user.requests
+            user_re = list(user_re.split(","))
+            print(user_re)
+            for i in user_re:
+                new_user_re = ""
+                print(i)
+                if i != requests:
+                    new_user_re = new_user_re + "," + i
+            print(new_user_re)
+            user.requests = new_user_re
+            user.save()
+            return Response({"Success Request":"request removed"},status=status.HTTP_201_CREATED)
+        return Response({"Bad Request":"Data Not Valid"},status=status.HTTP_400_BAD_REQUEST)   
 
 
 @csrf_exempt

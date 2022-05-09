@@ -18,7 +18,9 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ("username","password","email","bio","profileimg")
 
-class UpdateProfileSerializer(serializers.ModelSerializer):
+
+class CreateRequestSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(validators=[])
     class Meta:
         model = User
-        fields = {"profileimg"}
+        fields = ("requests","username")
