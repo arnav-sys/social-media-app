@@ -1,0 +1,115 @@
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #FFA351;
+    overflow: hidden;
+  }
+  
+  /* Style the links inside the navigation bar */
+  .topnav a {
+    float: right;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .side-btn{
+      margin-right: 10%;
+  }
+
+  #home{
+    float:left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 21px;
+    margin-left: 10%;
+  }
+  
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  /* Add an active class to highlight the current page */
+  .topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+  
+  /* Hide the link that should open and close the topnav on small screens */
+  .topnav .icon {
+    display: none;
+  }
+
+  .main-text{
+      color:#FFA351;
+      width:35%;
+      margin-top: 100px;
+      margin-left: 10%;
+  }
+
+  .heading{
+      font-size: 300%;
+  }
+
+  .subheading{
+      font-size: 150%;
+      font-weight:normal ;
+  }
+
+  .head{
+      display: flex;
+  }
+
+  .logo{
+    color:#FFA351;
+    margin-top: 100px;
+    margin-left: 20%;
+    font-size: 2000%;
+  }
+
+  .join-btn{
+      background-color: #FFA351;
+      color: white;
+      font-size: 30px;
+      width: 20%;
+      height:60%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 40%;
+  }
+
+  @media only screen and (max-width: 770px) {
+      .heading{
+          font-size: 200%;
+      }
+      .join-btn{
+          font-size: 27px;
+      }
+  }
+
+  @media only screen and (max-width:590px){
+      .head{
+          display: block;
+          justify-content: center;
+      }
+      .main-text{
+          width: 80%;
+          text-align: center;
+      }
+      .logo{
+          margin-top: 0%;
+          margin-left: 30%;
+      }
+      .join-btn{
+          font-size: 22px;
+          width: 40%;
+          margin-left: 30%;
+      }
+  }
