@@ -4,12 +4,13 @@ from http.client import HTTPResponse
 from django.shortcuts import HttpResponse
 import json
 from rest_framework.response import Response
+from django.core import serializers
 from api.models import User
 import json
 from rest_framework.views import APIView
 from api.serializers import CreateFriendSerializer, CreateRequestSerializer, CreateUserSerializer,  UpdateUserSerializer, UserSerializer
 from rest_framework import generics,status
-from rest_framework.parsers import FileUploadParser, FormParser, MultiPartParser
+from rest_framework.parsers import  MultiPartParser
 from django.views.decorators.csrf import csrf_exempt
 
 mainuser = None
@@ -170,14 +171,27 @@ def Login(request):
         raw_user = json.loads(request.body)
         username = raw_user["username"]
         password = raw_user["password"]
+        print(username)
         user = User.objects.get(username=username)
         if user is not None:
             if user.password == password:
                 global mainuser
                 mainuser = user
-                respo = HttpResponse(str(UserSerializer(user).data))
+                obj = {
+                    "username":user.username,
+                    "email":user.email,
+                    "password":user.password,
+                    "friends":user.friends,
+                    "requests":user.requests,
+                    "bio":user.bio,
+                    "profileimg":user.profileimg
+                }
+                userj = serializers.serialize("json",[user])
+                respo = HttpResponse(userj)
+                print(respo)
                 return respo
             else:
                 return HttpResponse({"Bad Request":"Password not correct"})
         return HttpResponse({"Bad Request":"User Not Found"})
+    return HttpResponse({"method not allowed"})
         
