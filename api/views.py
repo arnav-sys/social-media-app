@@ -218,4 +218,23 @@ class DeletePost(APIView):
         post = Post.objects.get(id=id)
         post.delete()
         return Response({"Success":"Post Deleted"})
+
+class UpdatePost(APIView):
+    parser_classes = [MultiPartParser]
+    def put(self,request,format=None):
+        img = request.data["img"]
+        caption = request.data["caption"]
+        id = request.data["id"]
+        post  = Post.objects.get(id=id)
+        post.img = img
+        post.caption = caption
+        post.save()
+        return Response(PostSerializer(post).data,status=status.HTTP_201_CREATED)
  
+class LikePost(APIView):
+    def post(self,request,format=None):
+        id = request.data["id"]
+        post = Post.objects.get(id=id)
+        post.likes = post.likes + 1
+        post.save()
+        return Response(PostSerializer(post).data,status=status.HTTP_201_CREATED)
