@@ -1,3 +1,5 @@
+from distutils.command.upload import upload
+from unittest.util import _MAX_LENGTH
 from django.db import models
 
 
@@ -10,3 +12,9 @@ class User(models.Model):
     profileimg = models.ImageField(upload_to ="imgs",max_length=254,)
     friends = models.TextField(max_length=1000000000,default="")
     requests = models.TextField(max_length=1000000000,default="")
+
+class Post(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    caption = models.CharField(max_length=250)
+    img = models.ImageField(upload_to = "imgs",max_length=254)
+    likes = models.IntegerField()

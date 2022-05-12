@@ -1,14 +1,17 @@
 from ast import For
 from glob import glob
 from http.client import HTTPResponse
+from tkinter import EW
 from django.shortcuts import HttpResponse
 import json
+
+from jinja2 import pass_context
 from rest_framework.response import Response
 from django.core import serializers
-from api.models import User
+from api.models import Post, User
 import json
 from rest_framework.views import APIView
-from api.serializers import CreateFriendSerializer, CreateRequestSerializer, CreateUserSerializer,  UpdateUserSerializer, UserSerializer
+from api.serializers import CreateFriendSerializer, CreateRequestSerializer, CreateUserSerializer, PostSerializer,  UpdateUserSerializer, UserSerializer
 from rest_framework import generics,status
 from rest_framework.parsers import  MultiPartParser
 from django.views.decorators.csrf import csrf_exempt
@@ -45,12 +48,10 @@ class UpdateUserView(APIView):
             email = serializer.data.get("email")
             password = serializer.data.get("password")
             bio = serializer.data.get("bio")
-            profileimg = serializer.data.get("profileimg")
             user = User.objects.get(email=email)
             user.username = username
             user.password = password
             user.bio = bio
-            user.profileimg = profileimg
             user.save()
             global mainuser
             mainuser = user
@@ -195,3 +196,26 @@ def Login(request):
         return HttpResponse({"Bad Request":"User Not Found"})
     return HttpResponse({"method not allowed"})
         
+class CreatePost(APIView):
+    parser_classes = [MultiPartParser]
+    def put(self,request,format=None):
+        img = request.data["img"]
+        caption = request.data["caption"]
+        username = request.data["username"]
+        user = User.objects.get(username=username)
+        post = Post(img=img,caption=caption,user=user,likes=0)
+        post.save()
+        return Response(PostSerializer(post).data,status=status.HTTP_201_CREATED)
+        
+
+class PostView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+class DeletePost(APIView):
+    def delete(self,request,format=None):
+        id = request.data["id"]
+        post = Post.objects.get(id=id)
+        post.delete()
+        return Response({"Success":"Post Deleted"})
+ 

@@ -7,11 +7,13 @@ import { useState } from 'react'
 import axios from "axios"
 import { useEffect } from 'react'
 
-function LoginPage() {
+function RegisterPage() {
   const userstore = useSelector(selectUser)
   const dispatch = useDispatch()
   const [username, addUserName] = useState("")
   const [password,addPassword] = useState("")
+  const [email,setEmail] = useState("")
+
 
   useEffect(() => 
   {
@@ -28,14 +30,24 @@ function LoginPage() {
   function handleChangePassword(e){
       addPassword(e.target.value)
   }
+  function handleChangeEmail(e){
+      setEmail(e.target.value)
+  }
   function handleSubmit(e){
       e.preventDefault()
-      axios.post("http://127.0.0.1:8000/api/login",{
-          username:username,
-          password:password
-      }).then(function(response){
-          let user = response.data[0].fields
-          console.log(user)
+      const requestOptions = {
+          method:"POST",
+          headers: { "Content-Type": "application/json" },
+          body:JSON.stringify({
+            username:username,
+            password:password,
+            email:email,
+        }),
+      }
+      fetch("http://127.0.0.1:8000/api/signup",requestOptions).then(function(response){
+          return response.json()
+      }).then((data) => {
+          let user = data
           dispatch(addusername(user.username))
           dispatch(addemail(user.email))
           dispatch(addpassword(user.password))
@@ -52,11 +64,15 @@ function LoginPage() {
         <Navbar/>
         <div className='logincontent'>
             <div class="login-box">
-                <h2>Login</h2>
+                <h2>Register</h2>
                 <form>
                     <div className='user-box'>
                         <input type="text" value={username} onChange={handleChangeUsername} name="" required=""/>
                         <label>Username</label>
+                    </div>
+                    <div className='user-box'>
+                        <input type="email" value={email} onChange={handleChangeEmail} name="" required=""/>
+                        <label>Email</label>
                     </div>
                     <div className='user-box'>
                         <input type="password" value={password} onChange={handleChangePassword} name="" required=""/>
@@ -72,7 +88,7 @@ function LoginPage() {
                 </form>
             </div>
             <div className='login-txt'>
-                <h1 className='heading'>We are happy to have you back again</h1>
+                <h1 className='heading'>We are excited to have you onboard</h1>
                 <ol className='subtxt'>
                     <h1>meet Teenagers like you</h1>
                     <h1>make friends</h1>
@@ -84,4 +100,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default RegisterPage

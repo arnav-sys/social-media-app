@@ -1,7 +1,19 @@
 import React from 'react'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Navbar from '../components/Navbar'
+import { selectUser } from '../features/user/userSlice'
 
 function HomePage() {
+  const userstore = useSelector(selectUser)
+  useEffect(() => {
+    if (userstore.username !== ""){
+      window.location.href = "http://localhost:3000/browse"
+    }else{
+        console.log(userstore)
+        window.location.href = "http://localhost:3000/browse"
+    }
+  })
   return (
     <div className='homepage'>
               <Navbar/>

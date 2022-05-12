@@ -1,4 +1,4 @@
-from api.models import User
+from api.models import Post, User
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(validators=[])
     class Meta:
         model = User
-        fields = ("username","password","email","bio","profileimg")
+        fields = ("username","password","email","bio")
 
 
 class CreateRequestSerializer(serializers.ModelSerializer):
@@ -30,3 +30,9 @@ class CreateFriendSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("friends","username")
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ("id","user","caption","img","likes")
+
