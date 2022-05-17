@@ -15,7 +15,6 @@ function Navbar() {
         setLogin(false)
       }else{
         setLogin(true)
-        console.log(userstore)
       }
   })
   function rendersidebtn(){

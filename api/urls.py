@@ -1,3 +1,4 @@
+from unittest import addModuleCleanup
 from django.contrib import admin
 from django.urls import path
 
@@ -17,5 +18,5 @@ urlpatterns = [
     path("all-posts",PostView.as_view()),
     path("delete-post",DeletePost.as_view()),
     path("update-post",UpdatePost.as_view()),
-    path("like-post",LikePost.as_view())
+    path("like-post",LikePost.as_view()),
 ]

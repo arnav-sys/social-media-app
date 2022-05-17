@@ -300,3 +300,67 @@
     width:300px
   }
 }
+
+.input-pst{
+  display: flex;
+  border: 1px solid black;
+  margin-top: 3%;
+  width: 41%;
+  margin-left: 28%;
+  justify-content: space-between;
+}
+
+.input-pst > input{
+  border: none;
+}
+
+.img-input{
+  display: none;
+}
+
+.submit{
+  display: none;
+}
+
+.post{
+  display: flex;
+  border:1px solid black;
+  margin-top:3%;
+  width:41%;
+  margin-left: 28%;
+  align-items: center;
+}
+
+.content{
+  margin-left: 2%;
+  width: 85%;
+}
+
+.content >h1  {
+  font-weight: normal;
+}
+
+.content >h3  {
+  font-weight: normal;
+}
+
+
+.post-img{
+  width: 100%;
+}
+
+.like{
+  margin:auto;
+  display: flex;
+  width: 10%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text-comment{
+  color:#FFA351;
+}
+
+.comment-input{
+  width:100%;
+}

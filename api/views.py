@@ -2,19 +2,22 @@ from ast import For
 from glob import glob
 from http.client import HTTPResponse
 from tkinter import EW
+from turtle import pos
 from django.shortcuts import HttpResponse
 import json
 
 from jinja2 import pass_context
 from rest_framework.response import Response
 from django.core import serializers
-from api.models import Post, User
+from api.models import Comment, Post, User
 import json
 from rest_framework.views import APIView
-from api.serializers import CreateFriendSerializer, CreateRequestSerializer, CreateUserSerializer, PostSerializer,  UpdateUserSerializer, UserSerializer
+from api.serializers import CommentSerializer, CreateFriendSerializer, CreateRequestSerializer, CreateUserSerializer, PostSerializer,  UpdateUserSerializer, UserSerializer
 from rest_framework import generics,status
 from rest_framework.parsers import  MultiPartParser
 from django.views.decorators.csrf import csrf_exempt
+
+from socialmediapp.settings import BASE_DIR
 
 mainuser = None
 
@@ -22,6 +25,7 @@ mainuser = None
 class UserView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    
 
 class CreateUserView(APIView):
     serializer_class = CreateUserSerializer
@@ -203,8 +207,11 @@ class CreatePost(APIView):
         caption = request.data["caption"]
         username = request.data["username"]
         user = User.objects.get(username=username)
-        post = Post(img=img,caption=caption,user=user,likes=0)
+        post = Post(img=img,caption=caption,user=user,likes=0,username
+        =username)
         post.save()
+        comment = Comment(caption="first-comment",user=user,post=post)
+        comment.save()
         return Response(PostSerializer(post).data,status=status.HTTP_201_CREATED)
         
 
@@ -234,7 +241,12 @@ class UpdatePost(APIView):
 class LikePost(APIView):
     def post(self,request,format=None):
         id = request.data["id"]
+        m = request.data["m"]
         post = Post.objects.get(id=id)
-        post.likes = post.likes + 1
-        post.save()
+        if m=="t":
+            post.likes = post.likes-1
+            post.save()
+        else:
+            post.likes = post.likes + 1
+            post.save()
         return Response(PostSerializer(post).data,status=status.HTTP_201_CREATED)

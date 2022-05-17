@@ -1,4 +1,4 @@
-from api.models import Post, User
+from api.models import Comment, Post, User
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
@@ -34,5 +34,9 @@ class CreateFriendSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ("id","user","caption","img","likes")
+        fields = ("id","user","caption","img","likes","username")
 
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ("id","user","caption","post","username")

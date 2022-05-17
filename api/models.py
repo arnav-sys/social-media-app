@@ -1,4 +1,6 @@
 from distutils.command.upload import upload
+from importlib.metadata import requires
+from pyexpat import model
 from unittest.util import _MAX_LENGTH
 from django.db import models
 
@@ -15,6 +17,13 @@ class User(models.Model):
 
 class Post(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
+    username = models.CharField(max_length=25)
     caption = models.CharField(max_length=250)
     img = models.ImageField(upload_to = "imgs",max_length=254)
     likes = models.IntegerField()
+
+class Comment(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    username = models.CharField(max_length=25,default="no")
+    caption = models.CharField(max_length=250)
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
