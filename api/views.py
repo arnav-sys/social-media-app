@@ -207,6 +207,8 @@ class CreatePost(APIView):
         caption = request.data["caption"]
         username = request.data["username"]
         user = User.objects.get(username=username)
+        if user:
+            print("ok")
         post = Post(img=img,caption=caption,user=user,likes=0,username
         =username)
         post.save()

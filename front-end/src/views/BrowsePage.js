@@ -14,28 +14,55 @@ function BrowsePage() {
   const userstore = useSelector(selectUser)
   const [posts,setPosts] = useState([])
   const [likes,setLike] = useState(true)
+  const [img,setImg] = useState("")
+  const [caption,setCaption] = useState("")
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/all-posts").then(function(response){
       setPosts(response.data)
     })
   })
 
+  function handlesubmit(e){
+    e.preventDefault()
+    let body = new FormData()
+    body.append("img",img)
+    body.append("caption",caption)
+    body.append("username",userstore.username)
+    axios({
+      method: "put",
+      url: "http://localhost:8000/api/create-post",
+      data: body,
+      headers: { "Content-Type": "multipart/form-data" },
+    }).then(function(response){
+      console.log(response)
+    })
+  }
+
+  function handlecaption(e){
+    setCaption(e.target.value)
+  }
+
+  function handleimg(e){
+    setImg(e.target.value)
+  }
+
 
   return (
     <div>
       <Navbar/>
-      <form className='input-pst'>
-        <input className='txt' type="text" placeholder='write a caption'></input>
-        <input accept="image/*" className="img-input" id="icon-button-file" type="file" />
+      <form onSubmit={handlesubmit} className='input-pst'>
+        <input className='txt' value={caption} onChange={handlecaption} type="text" placeholder='write a caption'></input>
+        <input value={img} onChange={handleimg} accept="image/*" className="img-input" id="icon-button-file" type="file" />
   <label htmlFor="icon-button-file">
     <IconButton color="primary" className="" component="span">
       <ImageOutlinedIcon/>
     </IconButton>
   </label>
-        <input className='submit' type="submit"></input>
+        <button onClick={handlesubmit}>submit</button>
       </form>
       <div className='posts'>
         {posts.map((value,index) => {
+
                 function like(){
                   if(likes===true){
                     axios.post("http://127.0.0.1:8000/api/like-post",{id:value.id,m:"f"}).then(function(response){
