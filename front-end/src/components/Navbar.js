@@ -17,6 +17,15 @@ function Navbar() {
         setLogin(true)
       }
   })
+
+  function rendermainlink(){
+    if(login == true){
+      return <a href="/" id="home" >S</a>
+    }else{
+      return <a href="/browse" id="home" >S</a>
+    }
+  }
+
   function rendersidebtn(){
     if(login == true){
       return (<div className="side-btn">
@@ -32,7 +41,7 @@ function Navbar() {
   }
   return (
 <div class="topnav" id="myTopnav">
-  <a href="#home" id="home" >S</a>
+  {rendermainlink()}
   {rendersidebtn()}
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     <i class="fa fa-bars"></i>

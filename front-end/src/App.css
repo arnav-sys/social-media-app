@@ -15,6 +15,61 @@
   font-size: 17px;
 }
 
+.container-pst{
+  justify-content:space-evenly;
+  display: flex;
+  margin-left: 20%;
+  margin-top: 3%;
+  width: 60%;
+}
+.container-pst > img{
+  width: 27%;
+  height: 250px;
+}
+
+
+.maininfo{
+  display: flex;
+  width: 100%;
+  margin-top: 35px;
+}
+
+.profile-img{
+  border-radius: 50%;
+  height: 200px;
+  width: 25%;
+}
+
+.bio{
+  width:65%;
+}
+
+.info{
+  width: 85%;
+  margin-left: 13%;
+}
+
+.posts{
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.editpf{
+  width: 10%;
+  height: 50px;
+  background-color: #FFA351;
+  color:#fff;
+  border: none;
+  font-size: medium;
+  margin-right: 20%;
+  margin-top: 60px;
+}
+
+.maintxt{
+  margin-left: 2%;
+}
+
 .side-btn{
     margin-right: 10%;
 }
@@ -295,9 +350,35 @@
   }
 }
 
-@media only screen and (max-width:500px){
+@media only screen and (max-width:550px){
   .login-box{
     width:300px
+  }
+  .maininfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  .maintxt{
+    margin-right: 10%;
+  }
+  .bio{
+    margin-left: 17%;
+  }
+  .profile-img{
+    width: 45%;
+    margin-right: 7%;
+  }
+  .editpf{
+    width: 25%;
+    margin-left: 39%;
+    margin-top: 0;
+  }
+
+  .container-pst{
+    margin-left: 5%;
+    width: 90%;
   }
 }
 
@@ -330,6 +411,37 @@
   margin-left: 28%;
   align-items: center;
 }
+
+.update-in{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.maintxt-upd{
+  text-align: center;
+}
+
+.update-sb{
+  width: 100%;
+  background-color: #FFA351;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.update-div{
+  border-radius: 5px;
+  padding: 20px;
+}
+
 
 .content{
   margin-left: 2%;
@@ -364,3 +476,4 @@
 .comment-input{
   width:100%;
 }
+

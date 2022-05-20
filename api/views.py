@@ -25,7 +25,13 @@ mainuser = None
 class UserView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    
+
+class GetUserDetails(APIView):
+    def post(self,request,format=None):
+        username = request.data["username"]
+        user = User.objects.get(username=username)
+        return Response(UserSerializer(user).data)
+
 
 class CreateUserView(APIView):
     serializer_class = CreateUserSerializer
@@ -42,35 +48,21 @@ class CreateUserView(APIView):
         
         return Response({"Bad Request":"Data Not Valid"},status=status.HTTP_400_BAD_REQUEST)
 
-class UpdateUserView(APIView):
-    serializer_class = UpdateUserSerializer
-
-    def post(self,request,format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            username = serializer.data.get("username")
-            email = serializer.data.get("email")
-            password = serializer.data.get("password")
-            bio = serializer.data.get("bio")
-            user = User.objects.get(email=email)
-            user.username = username
-            user.password = password
-            user.bio = bio
-            user.save()
-            global mainuser
-            mainuser = user
-            return Response(UserSerializer(user).data,status=status.HTTP_201_CREATED)
-        return Response({"Bad Request":"Data Not Valid"},status=status.HTTP_400_BAD_REQUEST)
-
 class UpdateProfileView(APIView):
     parser_classes = [MultiPartParser]
 
     def put(self,request,format=None):
         file = request.data["file"]
+        email = request.data["email"]
         username = request.data["username"]
+        password = request.data["password"]
+        bio = request.data["bio"]
         global mainuser
-        user = User.objects.get(username=username)
+        user = User.objects.get(email=email)
         user.profileimg = file
+        user.username = username
+        user.password =password
+        user.bio = bio
         user.save()
         mainuser = user
         return Response(UserSerializer(user).data,status=status.HTTP_201_CREATED)
@@ -228,6 +220,7 @@ class DeletePost(APIView):
         post.delete()
         return Response({"Success":"Post Deleted"})
 
+
 class UpdatePost(APIView):
     parser_classes = [MultiPartParser]
     def put(self,request,format=None):
@@ -252,3 +245,15 @@ class LikePost(APIView):
             post.likes = post.likes + 1
             post.save()
         return Response(PostSerializer(post).data,status=status.HTTP_201_CREATED)
+
+@csrf_exempt
+def PostId(request):
+    if request.method == "POST":
+        raw_data = json.loads(request.body)
+        username = raw_data["username"]
+        print(username)
+        print(raw_data)
+        user = User.objects.get(username=username)
+        posts = Post.objects.filter(user=user)
+        postsj = serializers.serialize("json",posts)
+        return HttpResponse(postsj)
