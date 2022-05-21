@@ -16,7 +16,7 @@ urlpatterns = [
     path("remove-friend",RemoveFriend.as_view()),
     path("create-post",CreatePost.as_view()),
     path("all-posts",PostView.as_view()),
-    path("delete-post",DeletePost.as_view()),
+    path("delete-post/<id>",DeletePost.as_view()),
     path("update-post",UpdatePost.as_view()),
     path("like-post",LikePost.as_view()),
     path("postid", PostId),

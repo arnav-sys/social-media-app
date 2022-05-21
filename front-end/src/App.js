@@ -13,6 +13,7 @@ import ProfilePage from './views/ProfilePage';
 import UpdatePage from './views/UpdatePage';
 import UserPage from './views/UserPage';
 import FriendPage from './views/FriendPage';
+import EditPostPage from './views/EditPostPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route element={<UpdatePage/>} path="/update-profile"/>
         <Route element={<UserPage/>} path="/user/:name"/>
         <Route element={<FriendPage/>} path="/friends"/>
+        <Route element={<EditPostPage/>} path="/editpost/:id"/>
       </Routes>
     </Router>
   );

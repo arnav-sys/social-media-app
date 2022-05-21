@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { addbio, addpassword, addprofileimg, addusername, selectUser } from '../features/user/userSlice';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 function UpdatePage() {
   const user = useSelector(selectUser)
@@ -15,6 +16,7 @@ function UpdatePage() {
   const [image,setimage] = useState(user.image)
   const [bio,setbio] = useState(user.bio)
   const [password,setPassword] = useState(user.password)
+
 
 
   function handleimage(e){
@@ -54,6 +56,17 @@ function UpdatePage() {
   function handleusername(e){
       setusername(e.target.value)
   }
+
+  function signout(){
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+    localStorage.removeItem("bio");
+    localStorage.removeItem("profileimg");
+    localStorage.removeItem("friends");
+    localStorage.removeItem("requests");
+    window.location.href = "http://localhost:3000/login"
+  }
   return (
     <div>
         <Navbar/>
@@ -76,6 +89,7 @@ function UpdatePage() {
   </label>
                 </div>
                 <button onClick={handlesubmit} className='update-sb' type="submit" value="Submit">Submit</button>
+                <button onClick={signout} className='update-sb' type="submit" value="Submit">Signout</button>
             </form>
         </div>
     </div>

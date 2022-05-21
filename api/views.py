@@ -214,8 +214,8 @@ class PostView(generics.ListAPIView):
     serializer_class = PostSerializer
 
 class DeletePost(APIView):
-    def delete(self,request,format=None):
-        id = request.data["id"]
+    def delete(self,request,id,format=None):
+        print(request.data)
         post = Post.objects.get(id=id)
         post.delete()
         return Response({"Success":"Post Deleted"})

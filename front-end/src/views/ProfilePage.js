@@ -26,6 +26,7 @@ function ProfilePage() {
   }
 
 
+
   
   return (
     <div>
@@ -44,11 +45,14 @@ function ProfilePage() {
           <h1>My Posts</h1>
           <div className='container-pst'>
           {posts.map((value,index) => {
-            
-            return (
-              <img className='' src="https://image.shutterstock.com/z/stock-photo-the-word-link-and-serious-businessman-with-hands-on-hips-against-futuristic-black-and-blue-180015809.jpg"/>
-            )
-          })}
+              let ur = "/editpost/" + value.pk
+              function editpost(){
+                window.location.href = ur
+              }
+              return (
+                <img onClick={editpost} className='' src="https://image.shutterstock.com/z/stock-photo-the-word-link-and-serious-businessman-with-hands-on-hips-against-futuristic-black-and-blue-180015809.jpg"/>
+              )
+            })}
           </div>
 
         </div>
