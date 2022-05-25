@@ -18,6 +18,14 @@ function UpdatePage() {
   const [password,setPassword] = useState(user.password)
 
 
+  function login(){
+    axios.post("http://127.0.0.1:8000/api/login",{
+      username:user.username,
+      password:user.password
+  }).then(function(response){
+    console.log(response)
+  })
+  }
 
   function handleimage(e){
       setimage(e.target.value)
@@ -33,6 +41,7 @@ function UpdatePage() {
 
   function handlesubmit(e){
     e.preventDefault()
+    login()
     let body = new FormData()
     body.append("file",image)
     body.append("bio",bio)

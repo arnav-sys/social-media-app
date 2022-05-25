@@ -21,6 +21,12 @@ function BrowsePage() {
     axios.get("http://127.0.0.1:8000/api/all-posts").then(function(response){
       setPosts(response.data)
     })
+    axios.post("http://127.0.0.1:8000/api/login",{
+      username:userstore.username,
+      password:userstore.password
+  }).then(function(response){
+    console.log(response)
+  })
   })
 
   function handlesubmit(e){
@@ -28,7 +34,6 @@ function BrowsePage() {
     let body = new FormData()
     body.append("img",img)
     body.append("caption",caption)
-    body.append("username",userstore.username)
     axios({
       method: "put",
       url: "http://localhost:8000/api/create-post",

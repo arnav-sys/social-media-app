@@ -16,7 +16,6 @@ class User(models.Model):
     requests = models.TextField(max_length=1000000000,default="")
 
 class Post(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
     username = models.CharField(max_length=25)
     caption = models.CharField(max_length=250)
     img = models.ImageField(upload_to = "imgs",max_length=254)

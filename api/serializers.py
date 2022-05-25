@@ -34,7 +34,7 @@ class CreateFriendSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ("id","user","caption","img","likes","username")
+        fields = ("id","caption","img","likes","username")
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

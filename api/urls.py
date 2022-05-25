@@ -2,7 +2,7 @@ from unittest import addModuleCleanup
 from django.contrib import admin
 from django.urls import path
 
-from api.views import CreateFriend, CreatePost, CreateRequestView, CreateUserView, DeletePost, GetUserDetails, LikePost, Login, PostId, PostView, RemoveFriend, RemoveRequestView, UpdatePost, UpdateProfileView,  UserView
+from api.views import CreateFriend, CreatePost, CreateRequestView, CreateUserView, DeletePost, GetUserDetails, LikePost, Login, PostId, PostView, RemoveFriend, RemoveRequestView, UpdatePost, UpdatePostName, UpdateProfileView,  UserView
 
 urlpatterns = [
     path("all-users",UserView.as_view()),
@@ -20,4 +20,5 @@ urlpatterns = [
     path("update-post",UpdatePost.as_view()),
     path("like-post",LikePost.as_view()),
     path("postid", PostId),
+    path("update-postname",UpdatePostName.as_view())
 ]

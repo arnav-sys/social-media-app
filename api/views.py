@@ -9,17 +9,20 @@ import json
 from jinja2 import pass_context
 from rest_framework.response import Response
 from django.core import serializers
-from api.models import Comment, Post, User
+from api.models import  Post, User
 import json
 from rest_framework.views import APIView
-from api.serializers import CommentSerializer, CreateFriendSerializer, CreateRequestSerializer, CreateUserSerializer, PostSerializer,  UpdateUserSerializer, UserSerializer
+from api.serializers import  CreateFriendSerializer, CreateRequestSerializer, CreateUserSerializer, PostSerializer,  UpdateUserSerializer, UserSerializer
 from rest_framework import generics,status
 from rest_framework.parsers import  MultiPartParser
 from django.views.decorators.csrf import csrf_exempt
-
 from socialmediapp.settings import BASE_DIR
 
+
 mainuser = None
+def getmainuser():
+    global mainuser
+    return mainuser
 
 # Create your views here.
 class UserView(generics.ListAPIView):
@@ -44,9 +47,16 @@ class CreateUserView(APIView):
             password = serializer.data.get("password")
             user = User(username=username,email=email,password=password)
             user.save()
+            global mainuser
+            mainuser = user
             return Response(UserSerializer(user).data,status = status.HTTP_201_CREATED)
         
         return Response({"Bad Request":"Data Not Valid"},status=status.HTTP_400_BAD_REQUEST)
+
+def PostIds(username):
+    print(username)
+    posts = Post.objects.filter(username=username)
+    return posts
 
 class UpdateProfileView(APIView):
     parser_classes = [MultiPartParser]
@@ -58,6 +68,13 @@ class UpdateProfileView(APIView):
         password = request.data["password"]
         bio = request.data["bio"]
         global mainuser
+        posts = PostIds(mainuser.username)
+        print(posts)
+        for post in posts:
+            print(post)
+            po = Post.objects.get(id=post.id)
+            po.username = username
+            po.save()
         user = User.objects.get(email=email)
         user.profileimg = file
         user.username = username
@@ -197,15 +214,13 @@ class CreatePost(APIView):
     def put(self,request,format=None):
         img = request.data["img"]
         caption = request.data["caption"]
-        username = request.data["username"]
+        username = mainuser.username
         user = User.objects.get(username=username)
         if user:
             print("ok")
-        post = Post(img=img,caption=caption,user=user,likes=0,username
+        post = Post(img=img,caption=caption,likes=0,username
         =username)
         post.save()
-        comment = Comment(caption="first-comment",user=user,post=post)
-        comment.save()
         return Response(PostSerializer(post).data,status=status.HTTP_201_CREATED)
         
 
@@ -233,6 +248,16 @@ class UpdatePost(APIView):
         post.save()
         return Response(PostSerializer(post).data,status=status.HTTP_201_CREATED)
  
+class UpdatePostName(APIView):
+    def put(self,request,format=None):
+        username = request.data["username"]
+        id = request.data["id"]
+        post  = Post.objects.get(id=id)
+        post.username = username
+        post.save()
+        return Response(PostSerializer(post).data,status=status.HTTP_201_CREATED)
+ 
+
 class LikePost(APIView):
     def post(self,request,format=None):
         id = request.data["id"]
@@ -253,7 +278,6 @@ def PostId(request):
         username = raw_data["username"]
         print(username)
         print(raw_data)
-        user = User.objects.get(username=username)
-        posts = Post.objects.filter(user=user)
+        posts = Post.objects.filter(username=username)
         postsj = serializers.serialize("json",posts)
         return HttpResponse(postsj)
