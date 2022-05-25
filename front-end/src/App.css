@@ -15,6 +15,19 @@
   font-size: 17px;
 }
 
+#request-btn{
+  background-color: #FFA351;
+  color:#fff;
+  border: none;
+  font-size: medium;
+  width: 10%;
+  height: 30px;
+}
+
+.request-btns{
+  padding: 2px;
+}
+
 .container-pst{
   justify-content:space-evenly;
   display: flex;
@@ -53,6 +66,10 @@
   width: 100%;
   text-align: center;
   margin-top: 20px;
+}
+
+.request-name{
+  width:80%
 }
 
 .editpf{
@@ -424,6 +441,16 @@
 
 .maintxt-upd{
   text-align: center;
+}
+
+.request-box{
+  display: flex;
+  align-items: center;
+}
+
+#request-btn{
+  font-size: small;
+  width:80%;
 }
 
 .update-sb{

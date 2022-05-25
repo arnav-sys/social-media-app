@@ -14,6 +14,7 @@ import UpdatePage from './views/UpdatePage';
 import UserPage from './views/UserPage';
 import FriendPage from './views/FriendPage';
 import EditPostPage from './views/EditPostPage';
+import "./App.css"
 
 function App() {
   return (

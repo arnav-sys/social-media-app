@@ -63,10 +63,8 @@ function UserPage() {
             <h1>My Posts</h1>
             <div className='container-pst'>
             {posts.map((value,index) => {
-              let ur = "/editpost/" + value.pk
-              console.log(ur)
               return (
-                <Link to={ur}> <img className='' src="https://image.shutterstock.com/z/stock-photo-the-word-link-and-serious-businessman-with-hands-on-hips-against-futuristic-black-and-blue-180015809.jpg"/></Link>
+                <img className='' src="https://image.shutterstock.com/z/stock-photo-the-word-link-and-serious-businessman-with-hands-on-hips-against-futuristic-black-and-blue-180015809.jpg"/>
               )
             })}
             </div>
