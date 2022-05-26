@@ -6,14 +6,15 @@ import { selectUser } from '../features/user/userSlice'
 
 function HomePage() {
   const userstore = useSelector(selectUser)
-  useEffect(() => {
-    if (userstore.username !== ""){
-      window.location.href = "http://localhost:3000/browse"
-    }else{
-        console.log(userstore)
+  useEffect(() => 
+  {
+      if (userstore.username !== null){
         window.location.href = "http://localhost:3000/browse"
-    }
+      }else{
+
+      }
   })
+
   return (
     <div className='homepage'>
               <Navbar/>

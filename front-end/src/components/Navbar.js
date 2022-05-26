@@ -20,9 +20,9 @@ function Navbar() {
 
   function rendermainlink(){
     if(login == true){
-      return <a href="/" id="home" >S</a>
-    }else{
       return <a href="/browse" id="home" >S</a>
+    }else{
+      return <a href="/" id="home" >S</a>
     }
   }
 

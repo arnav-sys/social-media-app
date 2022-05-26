@@ -44,20 +44,31 @@ function RegisterPage() {
             email:email,
         }),
       }
-      fetch("http://127.0.0.1:8000/api/signup",requestOptions).then(function(response){
-          return response.json()
-      }).then((data) => {
-          let user = data
-          dispatch(addusername(user.username))
-          dispatch(addemail(user.email))
-          dispatch(addpassword(user.password))
-          dispatch(addbio(user.bio))
-          dispatch(addprofileimg(user.profileimg))
-          dispatch(addfriends(user.friends))
-          dispatch(addrequests(user.requests))
-          console.log(userstore)
-          window.location.href = "http://localhost:3000/browse"
-      })
+      if(username === ""){
+          return;
+      }
+      if(email === ""){
+          return;
+      }
+      if(password === ""){
+          return;
+      }
+      else{
+        fetch("http://127.0.0.1:8000/api/signup",requestOptions).then(function(response){
+            return response.json()
+        }).then((data) => {
+            let user = data
+            dispatch(addusername(user.username))
+            dispatch(addemail(user.email))
+            dispatch(addpassword(user.password))
+            dispatch(addbio(user.bio))
+            dispatch(addprofileimg(user.profileimg))
+            dispatch(addfriends(user.friends))
+            dispatch(addrequests(user.requests))
+            console.log(userstore)
+            window.location.href = "http://localhost:3000/browse"
+        })
+      }
   }
   return (
     <div>
